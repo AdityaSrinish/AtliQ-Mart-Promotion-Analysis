@@ -24,6 +24,49 @@ The analysis is powered by a robust relational schema consisting of:
 
 ---
 
+## ⚡ Automated Data Pipeline (N8n + Supabase + Quadratic AI)
+
+In most companies, data arrives via email as CSV attachments and is manually entered into a database a slow, error-prone process. I eliminated this entirely by building an automated pipeline using **N8n**.
+
+### 🔄 How the Automation Works
+
+```
+Gmail (CSV Attachment)
+        │
+        ▼
+N8n Gmail Trigger Node
+        │
+        ▼
+Extract from File Node (CSV → JSON)
+        │
+        ├──► Insert into dim_campaigns table
+        ├──► Insert into dim_stores table
+        ├──► Insert into fact_events table
+        └──► Insert into dim_products table
+                │
+                ▼
+        Supabase (PostgreSQL Database)
+                │
+                ▼
+        Quadratic AI (Natural Language Querying)
+```
+
+### 🧩 Pipeline Breakdown
+
+| Step | Tool | What It Does |
+|------|------|-------------|
+| **Trigger** | Gmail Node (N8n) | Watches the inbox and fires when new data arrives via email |
+| **Extract** | Extract from File Node (N8n) | Converts CSV attachments into JSON a format AI can process efficiently |
+| **Store** | Supabase (PostgreSQL) | Inserts parsed rows into the correct tables (`dim_campaigns`, `dim_stores`, `fact_events`, `dim_products`) |
+| **Analyse** | Quadratic AI | Connects directly to Supabase query the database in plain English instead of writing SQL |
+
+### ✅ Why This Matters
+* **Zero manual entry**: data flows from email to database automatically on arrival
+* **Structured storage**: each CSV maps cleanly to its corresponding table
+* **Faster analysis**: Quadratic AI lets anyone query the database without writing a single SQL query
+
+---
+
 ## 🗝️ Business Requests & SQL Solutions
 I solved five critical business requests using optimized SQL queries:
 1.  **High-Value Heroes:** Identified products with a base price > 500 featured in 'BOGOF' promotions.
@@ -62,6 +105,7 @@ I solved five critical business requests using optimized SQL queries:
 * `SQL Ad hoc Requests/`: Optimized scripts for the 5 business requests.
 * `AtliQ Mart.pbix`: Visual dashboard representing the data (LFS).
 * `EER Diagram.mwb`: Relation between the table in the database
+* `N8n_Pipeline.json`: Exportable N8n workflow import directly into any N8n instance to replicate the Gmail → CSV → Supabase automation pipeline.
 
 ---
 
