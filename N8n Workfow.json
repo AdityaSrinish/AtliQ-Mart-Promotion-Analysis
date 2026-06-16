@@ -1,0 +1,511 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "labelIds": [
+            "INBOX"
+          ],
+          "q": "subject:data sets"
+        },
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -2304,
+        -832
+      ],
+      "id": "07dc036f-a3e7-41a5-83eb-f46f677d7248",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jmPTQ3l7WjB5hPHA",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "attachment_3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -2096,
+        -832
+      ],
+      "id": "7506221c-1be9-4897-912a-d178dd46728f",
+      "name": "Extract from File (dim_campaigns)"
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "attachment_1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -2112,
+        -608
+      ],
+      "id": "ac72b855-7f50-46ef-95c5-fd556d6213b2",
+      "name": "Extract from File (dim_stores)"
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "attachment_0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -2128,
+        -400
+      ],
+      "id": "4d6b9bce-ae2f-41d3-8e17-7af6863da8a6",
+      "name": "Extract from File (fact_events)"
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "attachment_2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -2128,
+        -176
+      ],
+      "id": "0034d743-e65d-4ec4-9c28-e5be29590cd6",
+      "name": "Extract from File (dim_products)"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "dim_campaign",
+          "mode": "list",
+          "cachedResultName": "dim_campaign"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "campaign_id": "={{ $json.campaign_id }}",
+            "campaign_name": "={{ $json.campaign_name }}",
+            "start_date": "={{ $json.start_date }}",
+            "end_date": "={{ $json.end_date}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "campaign_id",
+              "displayName": "campaign_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "campaign_name",
+              "displayName": "campaign_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "start_date",
+              "displayName": "start_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "end_date",
+              "displayName": "end_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1888,
+        -832
+      ],
+      "id": "3f9df274-0c20-4134-ad0e-2022e8c35cbe",
+      "name": "Insert rows in dim_campaigns table",
+      "credentials": {
+        "postgres": {
+          "id": "KSm8aXgz9K3Mg8Vr",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "dim_stores",
+          "mode": "list",
+          "cachedResultName": "dim_stores"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "store_id": "={{ $json.store_id }}",
+            "city": "={{ $json.city }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "store_id",
+              "displayName": "store_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "city",
+              "displayName": "city",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1904,
+        -608
+      ],
+      "id": "07a6ff99-fc88-4014-aba8-2485512dd11d",
+      "name": "Insert rows in dim_stores table",
+      "credentials": {
+        "postgres": {
+          "id": "KSm8aXgz9K3Mg8Vr",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "fact_events",
+          "mode": "list",
+          "cachedResultName": "fact_events"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "base_price": "={{ $json.base_price }}",
+            "quantity_sold(before_promo)": "={{ $json['quantity_sold_before_promo'] }}",
+            "quantity_sold(after_promo)": "={{ $json['quantity_sold_after_promo'] }}",
+            "event_id": "={{ $json.event_id }}",
+            "store_id": "={{ $json.store_id }}",
+            "campaign_id": "={{ $json.campaign_id }}",
+            "product_code": "={{ $json.product_code }}",
+            "promo_type": "={{ $json.promo_type }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "event_id",
+              "displayName": "event_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "store_id",
+              "displayName": "store_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "campaign_id",
+              "displayName": "campaign_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product_code",
+              "displayName": "product_code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "base_price",
+              "displayName": "base_price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "promo_type",
+              "displayName": "promo_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "quantity_sold(before_promo)",
+              "displayName": "quantity_sold(before_promo)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "quantity_sold(after_promo)",
+              "displayName": "quantity_sold(after_promo)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1920,
+        -400
+      ],
+      "id": "38d1b2b8-7080-46d2-85bf-f78c9d6b8a74",
+      "name": "Insert rows in fact_events table",
+      "credentials": {
+        "postgres": {
+          "id": "KSm8aXgz9K3Mg8Vr",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "dim_products",
+          "mode": "list",
+          "cachedResultName": "dim_products"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "product_code": "={{ $json.product_code }}",
+            "product_name": "={{ $json.product_name }}",
+            "category": "={{ $json.category }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "product_code",
+              "displayName": "product_code",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product_name",
+              "displayName": "product_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1920,
+        -176
+      ],
+      "id": "5e6af684-8994-4814-b731-5126fefb3b5f",
+      "name": "Insert rows in dim_products table",
+      "credentials": {
+        "postgres": {
+          "id": "KSm8aXgz9K3Mg8Vr",
+          "name": "Postgres account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract from File (dim_campaigns)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract from File (dim_stores)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract from File (fact_events)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract from File (dim_products)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File (dim_campaigns)": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in dim_campaigns table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File (dim_stores)": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in dim_stores table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File (fact_events)": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in fact_events table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File (dim_products)": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in dim_products table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "a00968b0-07dd-46cb-950b-b78ccd3f77bf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a6f1d9d2db41d33240d9ae12cdabf4587659f8fa7d37807bb46762ab8e320c8b"
+  },
+  "id": "3Nw9AcDuSK2RKVO5SRXM6",
+  "tags": []
+}
